@@ -30,22 +30,23 @@ public class User {
         this.username = username;
     }
 
-    /**
-     Checking for Password Validation:
-    - At least 8 characters long
-    - At max 30 characters long
-    - Must have at least one special character
-    - Must have at least one lowercase character
-    - Must have at least one uppercase character
-
-     Source: https://java2blog.com/validate-password-java/
-     */
 
     public static boolean passwordCheck(String password) {
 
+        /**
+         Checking for Password Validation:
+         - At least 8 characters long
+         - At max 30 characters long
+         - Must have at least one special character
+         - Must have at least one lowercase character
+         - Must have at least one uppercase character
+
+         Source: https://java2blog.com/validate-password-java/
+         */
+
         boolean isValid = true;
 
-        if (password.length() > 15 || password.length() < 8)
+        if (password.length() > 30 || password.length() < 8)
         {
             System.out.println("Password must be less than 30 and more than 8 characters in length.");
             isValid = false;
@@ -54,29 +55,40 @@ public class User {
         String upperCaseChars = "(.*[A-Z].*)";
         if (!password.matches(upperCaseChars ))
         {
-            System.out.println("Password must have atleast one uppercase character");
+            System.out.println("Password must have at least one uppercase character");
             isValid = false;
         }
 
         String lowerCaseChars = "(.*[a-z].*)";
         if (!password.matches(lowerCaseChars ))
         {
-            System.out.println("Password must have atleast one lowercase character");
+            System.out.println("Password must have at least one lowercase character");
             isValid = false;
         }
 
         String numbers = "(.*[0-9].*)";
         if (!password.matches(numbers ))
         {
-            System.out.println("Password must have atleast one number");
+            System.out.println("Password must have at least one number");
             isValid = false;
         }
         String specialChars = "(.*[@#$%^&+=].*$)";
         if (!password.matches(specialChars ))
         {
-            System.out.println("Password must have atleast one special character among @#$%");
+            System.out.println("Password must have at least one special character among @#$%");
             isValid = false;
         }
+        return isValid;
+    }
+
+    public static boolean authorizationCheck (UserType usertype) {
+
+        boolean isValid = false;
+
+        if (usertype == UserType.Admin) {
+            isValid = true;
+        }
+
         return isValid;
     }
 
