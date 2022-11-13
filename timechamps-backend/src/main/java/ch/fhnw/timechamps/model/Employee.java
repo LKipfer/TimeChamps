@@ -66,6 +66,7 @@ public class Employee implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getPlace() {
         return place;
     }
