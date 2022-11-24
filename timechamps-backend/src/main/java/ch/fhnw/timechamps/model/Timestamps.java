@@ -37,6 +37,7 @@ public class Timestamps {
 
 
 
+
     public double calculateWorkTime () {
         double workTime = Math.round((double)Duration.between(startTime, endTime).minusHours(1).toMinutes()/60 * 100d) / 100d;
         return workTime;
