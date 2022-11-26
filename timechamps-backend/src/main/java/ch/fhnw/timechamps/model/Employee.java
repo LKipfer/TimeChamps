@@ -20,19 +20,21 @@ public class Employee implements Serializable {
     private String place;
     private String jobTitle;
     private String email;
-
+    @Column(nullable = false, updatable = false)
+    private String employeeCode;
     private WorkFunction workFunction;
 
 
     public Employee () {}
 
-    public Employee(String surname, String name, String address, String place, String jobTitle, String email) {
+    public Employee(String surname, String name, String address, String place, String jobTitle, String email, String employeeCode) {
         this.surname = surname;
         this.name = name;
         this.address = address;
         this.place = place;
         this.jobTitle = jobTitle;
         this.email = email;
+        this.employeeCode = employeeCode;
     }
 
     public Long getId() {
@@ -91,6 +93,13 @@ public class Employee implements Serializable {
         this.email = email;
     }
 
+    public String getEmployeeCode() {
+        return employeeCode;
+    }
+
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode;
+    }
 
     @Override                                                                                                           //Incase we ever need to print the Employee Message
     public String toString() {
