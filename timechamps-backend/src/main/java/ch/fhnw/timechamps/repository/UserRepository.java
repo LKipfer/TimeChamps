@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    void deleteUserById(Long userId);
+    void deleteUserById(Long id);
 
     //The reason why we used "Optional" instead of only "Employee" is for cases, that we do not find an Employee.
-    Optional<User> findUserById(Long userId);
+    Optional<User> findUserById(Long id);
 
 }

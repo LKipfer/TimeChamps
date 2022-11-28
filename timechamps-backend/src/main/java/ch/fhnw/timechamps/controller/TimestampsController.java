@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author Lukas Kipfer
- * Source: https://www.youtube.com/watch?v=Gx4iBLKLVHk&t=3120s
  */
 
 @RestController
