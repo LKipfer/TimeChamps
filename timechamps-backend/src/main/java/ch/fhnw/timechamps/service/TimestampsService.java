@@ -22,8 +22,16 @@ public class TimestampsService {
         this.timestampsRepository = timestampsRepository;
     }
 
+    /**
+     * Todo: Differentiate between start and end Timestamps
+     * Todo: Get Total Time
+     * @param timestamp
+     * @return
+     */
     public Timestamps addTimestamp(Timestamps timestamp) {
         //timestamp.setEmployeeCode(UUID.randomUUID().toString());
+        timestamp.setStartTime(Timestamps.createTimeStamp());
+        timestamp.setEndTime(Timestamps.createMockTimeStamp());
         return timestampsRepository.save(timestamp);
     }
 
