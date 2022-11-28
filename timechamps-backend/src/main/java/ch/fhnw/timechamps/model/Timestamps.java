@@ -12,6 +12,7 @@ import java.time.*;
  * Source for rounding formula: https://stackoverflow.com/questions/153724/how-to-round-a-number-to-n-decimal-places-in-java
  */
 
+@Entity
 public class Timestamps implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

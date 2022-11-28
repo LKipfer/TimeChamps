@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author Lukas Kipfer
  */
 
+@Entity
 public class User implements Serializable {
 
     @Id
