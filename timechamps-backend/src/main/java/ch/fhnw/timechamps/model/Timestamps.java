@@ -1,5 +1,7 @@
 package ch.fhnw.timechamps.model;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.*;
 
 /**
@@ -10,12 +12,22 @@ import java.time.*;
  * Source for rounding formula: https://stackoverflow.com/questions/153724/how-to-round-a-number-to-n-decimal-places-in-java
  */
 
-public class Timestamps {
+public class Timestamps implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private long id;
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
+    private double workTime;
 
-    ZonedDateTime startTime = createTimeStamp();
-    ZonedDateTime endTime = createMockTimeStamp();
+    public long getId() {
+        return id;
+    }
 
-    double workTime = calculateWorkTime(startTime, endTime);
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public ZonedDateTime getStartTime() {
         return startTime;
@@ -59,6 +71,9 @@ public class Timestamps {
         return timestamp;
     }
 
+    /**
+     * ToDo: Add existing worktime to total
+     */
     public static double calculateWorkTime(ZonedDateTime startTime, ZonedDateTime endTime) {
 
         double newWorktime = Math.round((double)Duration.between(startTime, endTime).toMinutes()/60 * 100d) / 100d;
