@@ -15,7 +15,7 @@ import java.time.*;
 @Entity
 public class Timestamps implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private long id;
     private ZonedDateTime startTime;
@@ -65,7 +65,7 @@ public class Timestamps implements Serializable {
 
     public static ZonedDateTime createMockTimeStamp() {
         ZoneId zoneSwitzerland = ZoneId.of("Europe/Zurich");
-        Clock timeStampClock = Clock.fixed(Instant.parse("2022-11-25T13:00:00.00Z"),
+        Clock timeStampClock = Clock.fixed(Instant.parse("2022-11-28T22:00:00.00Z"),
                 ZoneId.of("Europe/Zurich"));
 
         ZonedDateTime timestamp = ZonedDateTime.now(timeStampClock).minusHours(1);
