@@ -34,12 +34,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findUserById(Long userId) {
-        return userRepository.findUserById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User by id " + userId + "was not found."));
+    public User findUserById(Long id) {
+        return userRepository.findUserById(id)
+                .orElseThrow(() -> new UserNotFoundException("User by id " + id + "was not found."));
     }
 
-    public void deleteUser (Long userId) {
-        userRepository.deleteUserById(userId);
+    public void deleteUser (Long id) {
+        userRepository.deleteUserById(id);
     }
 }

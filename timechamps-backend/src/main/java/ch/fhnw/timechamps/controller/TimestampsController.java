@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Lukas Kipfer
+ */
+
 @RestController
 @RequestMapping("/timestamps")
 public class TimestampsController {

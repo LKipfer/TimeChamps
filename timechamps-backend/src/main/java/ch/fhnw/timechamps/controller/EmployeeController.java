@@ -1,6 +1,5 @@
 package ch.fhnw.timechamps.controller;
 
-
 import ch.fhnw.timechamps.model.Employee;
 import ch.fhnw.timechamps.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/employee") //defines a base url for the controller of this class
 public class EmployeeController {
+
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
