@@ -1,12 +1,11 @@
 package ch.fhnw.timechamps.service;
 
-import ch.fhnw.timechamps.exception.UserNotFoundException;
+import ch.fhnw.timechamps.exception.EmployeeNotFoundException;
 import ch.fhnw.timechamps.model.Employee;
 import ch.fhnw.timechamps.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +42,7 @@ public class EmployeeService {
 
     public Employee findEmployeeById(Long id) {
         return employeeRepository.findEmployeeById(id)
-                .orElseThrow(() -> new UserNotFoundException("User by id " + id + "was not found.")); //orElseThrow is needed, because we defined this method as "Optional" in the EmployeeRepository
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee by id " + id + "was not found.")); //orElseThrow is needed, because we defined this method as "Optional" in the EmployeeRepository
     }
 
     public void deleteEmployee (Long id) {
