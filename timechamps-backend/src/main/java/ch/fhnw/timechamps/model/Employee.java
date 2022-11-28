@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity // This ensures that this class is mapped to the configured database. From Spring JPA repository
 public class Employee implements Serializable {
     @Id                                                                                                                 //Determines the primary key in the database
-    @GeneratedValue(strategy = GenerationType.IDENTITY)                                                                 //Check why strategy and what the generation types are
+    @GeneratedValue(strategy = GenerationType.AUTO)                                                                 //Check why strategy and what the generation types are
     @Column(nullable = false, updatable = false)                                                                        //Makes that this datatype cant be changed or nulled after creation.
     private Long id;
     private String surname;

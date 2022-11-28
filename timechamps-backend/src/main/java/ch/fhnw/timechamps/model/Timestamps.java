@@ -15,7 +15,7 @@ import java.time.*;
 @Entity
 public class Timestamps implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private long id;
     private ZonedDateTime startTime;
