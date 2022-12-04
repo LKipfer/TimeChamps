@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author Lukas Kipfer
+ * @author Isabelle Bustamante
  */
 
 @Entity // This ensures that this class is mapped to the configured database. From Spring JPA repository
