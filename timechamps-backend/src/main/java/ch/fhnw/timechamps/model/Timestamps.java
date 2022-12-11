@@ -21,10 +21,11 @@ public class Timestamps implements Serializable {
     private ZonedDateTime timestamp;
     /**
      * Todo: Delete startTime and endTime incase they aren't needed in frontend.
-     */
+
     private ZonedDateTime startTime;
     private ZonedDateTime endTime;
     private double workTime;
+     */
 
     public long getId() {
         return id;
@@ -42,29 +43,6 @@ public class Timestamps implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public ZonedDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(ZonedDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public ZonedDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(ZonedDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public double getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(double workTime) {
-        this.workTime = workTime;
-    }
 
     public static ZonedDateTime createTimeStamp() {
 
