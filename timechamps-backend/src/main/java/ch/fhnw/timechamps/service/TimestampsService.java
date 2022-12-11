@@ -30,8 +30,12 @@ public class TimestampsService {
      */
     public Timestamps addTimestamp(Timestamps timestamp) {
         //timestamp.setEmployeeCode(UUID.randomUUID().toString());
-        timestamp.setStartTime(Timestamps.createTimeStamp());
+
+        timestamp.setTimestamp(Timestamps.createTimeStamp());
+
+        /* Use this to create a Mock Timestamp for Testing
         timestamp.setEndTime(Timestamps.createMockTimeStamp());
+        */
         return timestampsRepository.save(timestamp);
     }
 
