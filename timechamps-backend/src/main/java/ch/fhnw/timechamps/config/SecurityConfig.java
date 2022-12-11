@@ -47,7 +47,10 @@ public class SecurityConfig {
     public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/**/auth/**")
+                .permitAll() //we tell Spring, everytime you see the pattern /auth/, just admit all. I assume it's so it doesn't forbid the auth-request itself
                 .anyRequest()
                 .authenticated()
                 .and()
