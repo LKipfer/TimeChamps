@@ -18,6 +18,10 @@ public class Timestamps implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "timestamps_sequence")
     @Column(nullable = false, updatable = false)
     private long id;
+    private ZonedDateTime timestamp;
+    /**
+     * Todo: Delete startTime and endTime incase they aren't needed in frontend.
+     */
     private ZonedDateTime startTime;
     private ZonedDateTime endTime;
     private double workTime;
@@ -28,6 +32,14 @@ public class Timestamps implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public ZonedDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(ZonedDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public ZonedDateTime getStartTime() {
@@ -73,7 +85,7 @@ public class Timestamps implements Serializable {
     }
 
     /**
-     * ToDo: Add existing worktime to total
+     * Todo: Total might be calculated in Frontend only. If so, delete this function.
      */
     public static double calculateWorkTime(ZonedDateTime startTime, ZonedDateTime endTime) {
 
