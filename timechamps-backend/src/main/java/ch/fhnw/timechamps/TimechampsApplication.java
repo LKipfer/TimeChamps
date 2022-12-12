@@ -21,6 +21,7 @@ public class TimechampsApplication {
 		SpringApplication.run(TimechampsApplication.class, args);
 	}
 
+	/* Moved CorsConfig to SecurityConfig
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -37,5 +38,7 @@ public class TimechampsApplication {
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return new CorsFilter(urlBasedCorsConfigurationSource);
 	}
+	/
+	 */
 
 }
