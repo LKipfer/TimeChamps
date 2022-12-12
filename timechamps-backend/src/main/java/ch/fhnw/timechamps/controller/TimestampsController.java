@@ -35,8 +35,8 @@ public class TimestampsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Timestamps> addTimestamp(@RequestBody Timestamps timestamp) {
-        Timestamps newTimestamp = timestampsService.addTimestamp(timestamp);
+    public ResponseEntity<Timestamps> addTimestamp() {
+        Timestamps newTimestamp = timestampsService.addTimestamp();
         return new ResponseEntity<>(newTimestamp, HttpStatus.CREATED);
     }
 

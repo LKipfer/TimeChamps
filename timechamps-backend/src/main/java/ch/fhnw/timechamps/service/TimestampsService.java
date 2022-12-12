@@ -22,15 +22,10 @@ public class TimestampsService {
         this.timestampsRepository = timestampsRepository;
     }
 
-    /**
-     * Todo: Differentiate between start and end Timestamps
-     * Todo: Get Total Time
-     * @param timestamp
-     * @return
-     */
-    public Timestamps addTimestamp(Timestamps timestamp) {
-        //timestamp.setEmployeeCode(UUID.randomUUID().toString());
 
+    public Timestamps addTimestamp() {
+
+        Timestamps timestamp = new Timestamps();
         timestamp.setTimestamp(Timestamps.createTimeStamp());
 
         /* Use this to create a Mock Timestamp for Testing
