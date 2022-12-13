@@ -1,5 +1,9 @@
 <script setup>
 const links = [
+{
+    path: '/login',
+    label: 'SignIn',
+  },
   {
     path: '/',
     label: 'Daily Timesheet',
@@ -8,6 +12,7 @@ const links = [
     path: '/admin',
     label: 'Admin Dashboard',
   }
+ 
 ]
 </script>
 
@@ -23,18 +28,45 @@ const links = [
 nav {
   border-bottom: 1px solid #ccc;
   display: flex;
+  background-color: #24252A;
+  align-items: center;
+  justify-content: space-around;
+  margin: auto;
 }
 
-.link {
+.link{
+  position: relative;
+  text-decoration: none;
   display: block;
+  color: #a0a0a0;
   padding: 10px 20px;
   font-weight: bold;
-  text-decoration: none;
-  color: #000000;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+
+.link:after{
+  content:"";
+  position: absolute;
+  background-color:aliceblue;
+  height: 2px;
+  width: 0%;
+  left: 0;
+  bottom: 4px;
+  transition: 0.3s;
+}
+
+.link:hover{
+  color: #ffffff;
+}
+.link:hover:after{
+  width: 100%;
 }
 
 .router-link-active {
-  background-color: rgba(0, 0, 255, 0.05);
-  color: rgba(0, 0, 255, 1);
+  background-color: rgba(213, 213, 216, 0.05);
+  color: rgb(229, 229, 241);
 }
+
+
 </style>
