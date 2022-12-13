@@ -49,6 +49,21 @@ export default {
 }
 </script>
 
+
 <style scoped>
+.surface-card{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: white;
+  border-radius: 10px;
+}
+
+.text-center{
+border-bottom: 1px solid silver;
+}
+
 
 </style>
