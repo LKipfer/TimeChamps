@@ -88,14 +88,17 @@ table {
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  background-color: #202e39;
+  color: white;
 }
 
 th {
-  background-color: #fde70e;
+  background-color:royalblue;
+  color: white;
   vertical-align: middle;
-  color: #000000;
   font-weight: bold;
 }
+
 
 th, td {
   text-align: left;
@@ -108,19 +111,46 @@ border-bottom: 1px solid #dddddd;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2
+  background-color: #364a5a;
 }
 
-
-
 button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
   display: inline-block;
+  text-decoration: none;
+  padding: 15px 32px;
   font-size: 16px;
+  border: none;
+  text-align: center;
+
+  background-color: #000000;
+  color: white;
+  border-radius: 30px;
+  transition: transform 0.4s ease;
+  
+}
+
+button::after, button::before{
+content: "";
+position: absolute;
+opacity: 0.3;
+width: 100%;
+height: 100%;
+left: 0;
+bottom: 0;
+z-index: -1;
+transition: transform 0.3s ease;
+
+}
+
+button:hover{
+  transform: translate(-6px, -6px);
+}
+
+button:hover::after{
+  transform: translate(3px, 3px);
+}
+
+button:hover::before{
+  transform: translate(9px, 9px);
 }
 </style>
