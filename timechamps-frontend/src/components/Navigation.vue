@@ -24,11 +24,14 @@ const links = [
   </nav>
 </template>
 
+
+
+'Author: Tufan Basaran - Navigation Bar - Inspired by: https://www.youtube.com/watch?v=PwWHL3RyQgk'
 <style scoped>
 nav {
   border-bottom: 1px solid #ccc;
   display: flex;
-  background-color: #24252A;
+  background-color: #1f2646;
   align-items: center;
   justify-content: space-around;
   margin: auto;
@@ -67,6 +70,4 @@ nav {
   background-color: rgba(213, 213, 216, 0.05);
   color: rgb(229, 229, 241);
 }
-
-
 </style>
