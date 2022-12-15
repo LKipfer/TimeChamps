@@ -12,9 +12,8 @@ class AuthService {
         password: user.password,
       })
       .then(response => {
-        console.log(response);
         if (response.data) {
-          TokenStorageService.storeToken(JSON.stringify(response.data));
+          TokenStorageService.storeToken(response.data);
         }
 
         return response.data;

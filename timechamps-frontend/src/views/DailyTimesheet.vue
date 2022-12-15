@@ -2,6 +2,7 @@
 import Title from '../components/MainTitle.vue';
 import { Employee } from '../model/employee';
 import { TimeStamp } from '../model/timestamp';
+import authHeader from '../services/auth.header';
 
 //const {data} = useFetch("/timestamps/all")
 const employee: Employee = {
@@ -27,14 +28,15 @@ const data: TimeStamp[] = [
 
 function addTimeStamp() {
   // http://localhost:8080/timestamps/add
-  fetch('/api/timestamps/add', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-    },
-  })
-    .then(res => res.json())
-    .then(data => console.log(data));
+  const headers = authHeader();
+  if (headers.Authorization) {
+    fetch('/api/timestamps/add', {
+      method: 'POST',
+      headers,
+    })
+      .then(res => res.json())
+      .then(data => console.log(data));
+  }
 }
 
 // function calcWorkTime(startTime: number, endTime: number): number {
