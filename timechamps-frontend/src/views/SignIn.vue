@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const store = useStore();
+const email = ref('');
+const password = ref('');
+
+computed(() => store.state.auth.status.loggedIn);
+
+function onSubmit(): void {
+  const payload = {
+    email: email.value,
+    password: password.value,
+  };
+  store.dispatch('auth/login', payload).then(() => {
+    router.push('/');
+  });
+}
+</script>
+
 <template>
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text-center mb-5">
@@ -8,47 +32,14 @@
 
     <div>
       <label for="email" class="block text-900 font-medium mb-2">Email</label>
-      <InputText id="email" type="text" v-model="email" class="w-full mb-3" />
+      <InputText id="email" v-model="email" type="text" class="w-full mb-3" />
 
       <label for="password" class="block text-900 font-medium mb-2">Password</label>
-      <InputText id="password" type="password" v-model="password" class="w-full mb-3" />
+      <InputText id="password" v-model="password" type="password" class="w-full mb-3" />
 
-      <Button label="Sign In" icon="pi pi-user" class="w-full" v-on:click="onSubmit()"></Button>
+      <Button label="Sign In" icon="pi pi-user" class="w-full" @click="onSubmit"></Button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { ref } from 'vue';
-
-export default {
-  setup() {
-    const email = ref('');
-    const password = ref('');
-    function onSubmit() {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.value,
-          password: password.value
-        })
-      };
-      fetch('/api/auth/authenticate', requestOptions)
-          .then(async response => {
-            const token = await response.text();
-            localStorage.setItem('access_token', token);
-          })
-          .catch(error => {
-            console.log(error);
-          })
-    }
-
-    return { email, password, onSubmit }
-  },
-}
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

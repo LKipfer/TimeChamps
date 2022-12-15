@@ -1,4 +1,4 @@
 export interface TimeStamp {
-    id: number,
-    timestamp: Date,
+  id: number;
+  timestamp: Date;
 }
