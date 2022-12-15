@@ -49,15 +49,12 @@ export const auth = {
   mutations: {
     loginSuccess(state: AuthState) {
       state.status.loggedIn = true;
-      // state.user = user;
     },
     loginFailure(state: AuthState) {
       state.status.loggedIn = false;
-      // state.user = null;
     },
     logout(state: AuthState) {
       state.status.loggedIn = false;
-      // state.user = null;
     },
     registerSuccess(state: AuthState) {
       state.status.loggedIn = false;

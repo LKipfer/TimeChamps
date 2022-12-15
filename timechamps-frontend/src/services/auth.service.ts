@@ -21,12 +21,16 @@ class AuthService {
   }
 
   logout() {
-      // TODO logout API
+    // TODO logout API
     TokenStorageService.clearToken();
   }
 
   register(user: User) {
-      // TODO register API
+    // TODO register API
+    return axios.post(API_URL + 'signup', {
+      email: user.email,
+      password: user.password,
+    });
   }
 }
 
