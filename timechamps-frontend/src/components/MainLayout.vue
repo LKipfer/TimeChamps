@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import Navigation from './MainNavigation.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+const store = useStore();
+const isAuthenticated = computed(() => store.state.auth.status.loggedIn);
 </script>
 
 <template>
   <div>
-    <Navigation />
+    <Navigation v-if="isAuthenticated" />
     <main>
       <slot />
     </main>
