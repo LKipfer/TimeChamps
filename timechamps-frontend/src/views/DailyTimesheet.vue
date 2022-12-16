@@ -3,6 +3,8 @@ import Title from '../components/MainTitle.vue';
 import { Employee } from '../model/employee';
 import { TimeStamp } from '../model/timestamp';
 import authHeader from '../services/auth.header';
+import TimestampService from "../services/timestamp.service";
+import { computed, onMounted, onBeforeMount, ref, reactive, onUpdated } from "vue";
 
 //const {data} = useFetch("/timestamps/all")
 const employee: Employee = {
@@ -15,16 +17,21 @@ const employee: Employee = {
   email: '',
   employeeCode: '',
 };
-const data: TimeStamp[] = [
-  {
-    id: 0,
-    timestamp: new Date('2022-12-10T08:00:00.000Z'),
-  },
-  {
-    id: 1,
-    timestamp: new Date('2022-12-10T13:00:00.000Z'),
-  },
-];
+const state: { timestamps: TimeStamp[]} = reactive({
+    timestamps: [],
+});
+const fetchTimestamps = () => {
+    TimestampService.getAll().then((res) => {
+        state.timestamps = res;
+    });
+}
+let data = ref([]);
+onMounted(() => {
+    fetchTimestamps()
+});
+onUpdated(() => {
+    fetchTimestamps()
+})
 
 function addTimeStamp() {
   // http://localhost:8080/timestamps/add
@@ -65,7 +72,7 @@ function addTimeStamp() {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="timestamp in data" :key="timestamp.id">
+      <tr v-for="timestamp in state.timestamps" :key="timestamp.id">
         <td>{{ timestamp.id }}</td>
         <td>{{ timestamp.timestamp }}</td>
       </tr>
