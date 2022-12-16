@@ -33,10 +33,10 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<User> addUser(@RequestBody User user) { //expects JSON format of Employee
+    @PostMapping("/register")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         User newUser = userService.addUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED); //returns the correct response for the successful creation of the user.
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")

@@ -3,7 +3,11 @@ package ch.fhnw.timechamps.service;
 import ch.fhnw.timechamps.exception.UserNotFoundException;
 import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +17,25 @@ import java.util.List;
  */
 
 @Service
-public class UserService {
+@AllArgsConstructor
+public class UserService implements UserDetailsService {
+    private final static String USER_NOT_FOUND_MSG =
+            "user with email %s not found";
     private final UserRepository userRepository;
 
-    @Autowired
+    @Override
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+    }
+    /* alt
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+
+     */
     public User addUser(User user) {
         return userRepository.save(user);
     }
@@ -41,4 +56,5 @@ public class UserService {
     public void deleteUser (Long id) {
         userRepository.deleteUserById(id);
     }
+
 }
