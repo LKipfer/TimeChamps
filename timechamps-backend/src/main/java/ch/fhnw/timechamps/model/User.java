@@ -1,5 +1,7 @@
 package ch.fhnw.timechamps.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,6 +18,8 @@ public class User implements Serializable {
     @Column(nullable = false, updatable = false)
     private Long id;
     private String username;
+
+    @JsonIgnore
     private String password;
     private UserType userType;
     private UserStatus userStatus;
