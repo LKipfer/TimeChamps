@@ -20,6 +20,7 @@ public class Employee implements Serializable {
     private String place;
     private String jobTitle;
     private String email;
+    private double targetTime;
     @Column(nullable = false, updatable = false)
     private String employeeCode;
     private WorkFunction workFunction;
@@ -27,13 +28,14 @@ public class Employee implements Serializable {
 
     public Employee () {}
 
-    public Employee(String surname, String name, String address, String place, String jobTitle, String email, String employeeCode) {
+    public Employee(String surname, String name, String address, String place, String jobTitle, String email, double targetTime, String employeeCode) {
         this.surname = surname;
         this.name = name;
         this.address = address;
         this.place = place;
         this.jobTitle = jobTitle;
         this.email = email;
+        this.targetTime = targetTime;
         this.employeeCode = employeeCode;
     }
 
@@ -93,6 +95,14 @@ public class Employee implements Serializable {
         this.email = email;
     }
 
+    public double getTargetTime() {
+        return targetTime;
+    }
+
+    public void setTargetTime(double targetTime) {
+        this.targetTime = targetTime;
+    }
+
     public String getEmployeeCode() {
         return employeeCode;
     }
@@ -111,6 +121,7 @@ public class Employee implements Serializable {
                 ", place='" + place + '\'' +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", email='" + email + '\'' +
+                ", targetTime='" + targetTime + '\'' +
                 '}';
     }
 }
