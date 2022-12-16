@@ -2,7 +2,7 @@ import axios from 'axios';
 import { User } from '../model/user';
 import TokenStorageService from './token-storage.service';
 
-const API_URL = '/api/auth/';
+const API_URL = '/api/login/';
 
 class AuthService {
   login(user: User) {
