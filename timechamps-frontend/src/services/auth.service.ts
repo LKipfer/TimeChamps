@@ -1,36 +1,28 @@
 import axios from "axios";
 import TokenStorageService from "./token-storage.service";
 import type User from "@/types/user";
+import type { AxiosResponse } from "axios";
 
 const API_URL = "/api/login/";
 
 class AuthService {
-  login(user: User) {
+  login(user: User): Promise<string> {
     return axios
       .post(API_URL + "authenticate", {
         email: user.email,
         password: user.password,
       })
-      .then((response) => {
-        if (response.data) {
-          TokenStorageService.storeToken(response.data);
+      .then((res: AxiosResponse<string>) => {
+        if (res.data) {
+          TokenStorageService.storeToken(res.data);
         }
 
-        return response.data;
+        return res.data;
       });
   }
 
-  logout() {
-    // TODO logout API
+  logout(): void {
     TokenStorageService.clearToken();
-  }
-
-  register(user: User) {
-    // TODO register API
-    return axios.post(API_URL + "signup", {
-      email: user.email,
-      password: user.password,
-    });
   }
 }
 

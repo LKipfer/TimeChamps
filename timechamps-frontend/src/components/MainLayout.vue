@@ -4,7 +4,7 @@ import { computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
 
 const store = useAuthStore();
-const isAuthenticated = computed(() => store.status.loggedIn);
+const isAuthenticated = computed(() => store.loggedIn);
 </script>
 
 <template>

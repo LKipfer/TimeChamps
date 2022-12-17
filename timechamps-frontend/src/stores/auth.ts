@@ -5,44 +5,40 @@ import AuthService from "@/services/auth.service";
 import type { AxiosResponse } from "axios";
 
 interface AuthState {
-  status: {
-    loggedIn: boolean;
-  };
+  loggedIn: boolean;
 }
 
 const accessToken = TokenStorageService.getToken();
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState =>
-    accessToken
-      ? { status: { loggedIn: true } }
-      : { status: { loggedIn: false } },
+    accessToken ? { loggedIn: true } : { loggedIn: false },
   getters: {},
   actions: {
-    login(user: User) {
+    login(user: User): Promise<AxiosResponse<any, any>> {
       return AuthService.login(user).then(
         (user: AxiosResponse<any>) => {
-          this.status.loggedIn = true;
+          this.loggedIn = true;
           return Promise.resolve(user);
         },
         (error) => {
-          this.status.loggedIn = false;
+          this.loggedIn = false;
           return Promise.reject(error);
         }
       );
     },
-    logout() {
+    logout(): void {
       AuthService.logout();
-      this.status.loggedIn = false;
+      this.loggedIn = false;
     },
-    register(user: User) {
+    register(user: User): Promise<AxiosResponse<any, any>> {
       return AuthService.register(user).then(
         (response: AxiosResponse<any>) => {
-          this.status.loggedIn = false;
+          this.loggedIn = false;
           return Promise.resolve(response.data);
         },
         (error) => {
-          this.status.loggedIn = false;
+          this.loggedIn = false;
           return Promise.reject(error);
         }
       );

@@ -9,7 +9,7 @@ const store = useAuthStore();
 const email = ref("");
 const password = ref("");
 
-computed(() => store.status.loggedIn);
+computed(() => store.loggedIn);
 
 function onSubmit(): void {
   const payload = {

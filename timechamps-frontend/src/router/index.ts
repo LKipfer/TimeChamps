@@ -26,7 +26,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const authStore = useAuthStore();
-  const isAuthenticated = authStore.status.loggedIn;
+  const isAuthenticated = authStore.loggedIn;
   if (!isAuthenticated && to.name !== "Login") {
     // redirect the user to the login page
     return { name: "Login" };
