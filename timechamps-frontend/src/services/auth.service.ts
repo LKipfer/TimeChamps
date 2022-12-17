@@ -1,17 +1,17 @@
-import axios from 'axios';
-import { User } from '../model/user';
-import TokenStorageService from './token-storage.service';
+import axios from "axios";
+import TokenStorageService from "./token-storage.service";
+import type User from "@/types/user";
 
-const API_URL = '/api/login/';
+const API_URL = "/api/login/";
 
 class AuthService {
   login(user: User) {
     return axios
-      .post(API_URL + 'authenticate', {
+      .post(API_URL + "authenticate", {
         email: user.email,
         password: user.password,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data) {
           TokenStorageService.storeToken(response.data);
         }
@@ -27,7 +27,7 @@ class AuthService {
 
   register(user: User) {
     // TODO register API
-    return axios.post(API_URL + 'signup', {
+    return axios.post(API_URL + "signup", {
       email: user.email,
       password: user.password,
     });

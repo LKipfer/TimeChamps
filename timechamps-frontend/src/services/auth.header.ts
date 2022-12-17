@@ -1,10 +1,10 @@
-import TokenStorageService from './token-storage.service';
+import TokenStorageService from "./token-storage.service";
 
 export default function authHeader() {
   const accessToken = TokenStorageService.getToken();
 
   if (accessToken) {
-    return { Authorization: 'Bearer ' + accessToken };
+    return { Authorization: "Bearer " + accessToken };
   } else {
     return {};
   }

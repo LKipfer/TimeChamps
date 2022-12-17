@@ -1,4 +1,4 @@
-import { isRef, unref, ref, watchEffect } from 'vue';
+import { isRef, unref, ref, watchEffect } from "vue";
 
 export function useFetch(url, options = {}) {
   const data = ref(null);
@@ -11,12 +11,12 @@ export function useFetch(url, options = {}) {
     isLoading.value = true;
 
     fetch(unref(url), options)
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         data.value = json;
         isLoading.value = false;
       })
-      .catch(err => {
+      .catch((err) => {
         error.value = err;
         isLoading.value = false;
       });

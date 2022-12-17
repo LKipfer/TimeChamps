@@ -3,16 +3,16 @@ class TokenStorageService {
     if (!token) {
       this.clearToken();
     } else {
-      localStorage.setItem('access_token', token);
+      localStorage.setItem("access_token", token);
     }
   }
 
   getToken(): string | undefined {
-    return localStorage.getItem('access_token') || undefined;
+    return localStorage.getItem("access_token") || undefined;
   }
 
   clearToken(): void {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem("access_token");
   }
 }
 

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import Navigation from './MainNavigation.vue';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-const store = useStore();
-const isAuthenticated = computed(() => store.state.auth.status.loggedIn);
+import Navigation from "./MainNavigation.vue";
+import { computed } from "vue";
+import { useAuthStore } from "@/stores/auth";
+
+const store = useAuthStore();
+const isAuthenticated = computed(() => store.status.loggedIn);
 </script>
 
 <template>
