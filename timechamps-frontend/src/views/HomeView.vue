@@ -52,8 +52,6 @@ function calcWorkTime(startTime: number, endTime: number): number {
 <template>
   <MainTitle>Daily Timesheet</MainTitle>
   <div class="bg-primary p-3 mb-5 border-round">{{ today }}</div>
-  <!--  <div>Logged in as {{ employee.surname }}</div>-->
-
   <DataTable :value="timestamps" responsiveLayout="scroll" class="mb-5">
     <PColumn field="id" header="Id"></PColumn>
     <PColumn field="timestamp" header="Timestamp"></PColumn>
