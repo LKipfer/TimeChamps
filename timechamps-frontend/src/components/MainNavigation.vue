@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { Role } from "@/types/role";
 
 const store = useAuthStore();
 const router = useRouter();
@@ -15,6 +16,7 @@ const items = ref([
     label: "Admin",
     to: "/admin",
     icon: "pi pi-fw pi-user",
+    visible: () => isAdmin(),
   },
   {
     label: "Logout",
@@ -25,6 +27,9 @@ const items = ref([
 function logout(): void {
   store.logout();
   router.push("/login");
+}
+function isAdmin(): boolean {
+  return store.role === Role.ADMIN;
 }
 </script>
 

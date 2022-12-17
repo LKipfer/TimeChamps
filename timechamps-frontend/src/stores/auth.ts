@@ -4,9 +4,11 @@ import type User from "@/types/user";
 import AuthService from "@/services/auth.service";
 import UserService from "@/services/user.service";
 import type { AxiosResponse } from "axios";
+import { Role } from "@/types/role";
 
 interface AuthState {
   loggedIn: boolean;
+  role: Role;
 }
 
 const userService = new UserService();
@@ -14,7 +16,9 @@ const accessToken = TokenStorageService.getToken();
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState =>
-    accessToken ? { loggedIn: true } : { loggedIn: false },
+    accessToken
+      ? { loggedIn: true, role: Role.USER }
+      : { loggedIn: false, role: Role.USER },
   getters: {},
   actions: {
     login(user: User): Promise<string> {
