@@ -46,12 +46,12 @@ function onSubmit(): void {
         class="w-full mb-3"
       />
 
-      <Button
+      <PButton
         label="Sign In"
         icon="pi pi-user"
         class="w-full"
         @click="onSubmit"
-      ></Button>
+      ></PButton>
     </div>
   </div>
 </template>

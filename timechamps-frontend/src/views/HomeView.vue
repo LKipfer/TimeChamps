@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import authHeader from "../services/auth.header";
 import TimestampService from "../services/timestamp.service";
 import { ref, type Ref, onMounted } from "vue";
 import type TimeStamp from "@/types/timestamp";
@@ -9,21 +8,23 @@ onMounted(() => {
   timestampService.value
     .getTimestamps()
     .then((res: TimeStamp[]) => (timestamps.value = res));
+  setInterval(() => {
+    getDate();
+  }, 1000);
 });
 
 const timestamps: Ref<TimeStamp[]> = ref([]);
 const timestampService = ref(new TimestampService());
+let today = ref(new Date());
 
-function addTimeStamp() {
-  const headers = authHeader();
-  if (headers.Authorization) {
-    fetch("/api/timestamps/add", {
-      method: "POST",
-      headers,
-    })
-      .then((res) => res.json())
-      .then((data) => timestamps.value.push(data));
-  }
+function getDate(): void {
+  today.value = new Date();
+}
+
+function addTimeStamp(): void {
+  timestampService.value
+    .addTimestamp()
+    .then((res) => timestamps.value.push(res));
 }
 
 function getTotalWorkHours(): number {
@@ -50,14 +51,14 @@ function calcWorkTime(startTime: number, endTime: number): number {
 
 <template>
   <MainTitle>Daily Timesheet</MainTitle>
-  <div>{{ new Date() }}</div>
+  <div class="bg-primary p-3 mb-5 border-round">{{ today }}</div>
   <!--  <div>Logged in as {{ employee.surname }}</div>-->
 
   <DataTable :value="timestamps" responsiveLayout="scroll" class="mb-5">
     <PColumn field="id" header="Id"></PColumn>
     <PColumn field="timestamp" header="Timestamp"></PColumn>
     <template #footer v-if="getTotalWorkHours() !== -1">
-      Total work hours: {{ getTotalWorkHours().toFixed(2) }}
+      Total: {{ getTotalWorkHours().toFixed(2) }} hours
     </template>
   </DataTable>
   <PButton @click="addTimeStamp()">Add Timestamp</PButton>
