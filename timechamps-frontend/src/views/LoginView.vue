@@ -13,11 +13,11 @@ const password = ref("");
 computed(() => store.loggedIn);
 
 function onSubmit(): void {
-  const payload = {
+  const user = {
     email: email.value,
     password: password.value,
   };
-  store.login(payload).then(() => router.push("/"));
+  store.login(user).then(() => router.push("/"));
 }
 </script>
 

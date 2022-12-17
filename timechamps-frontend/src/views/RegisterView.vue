@@ -10,11 +10,15 @@ const email = ref("");
 const password = ref("");
 
 function onSubmit(): void {
-  const payload = {
+  const user = {
     email: email.value,
     password: password.value,
   };
-  store.register(payload).then(() => router.push("/"));
+  store.register(user).then((res) => {
+    if (res.status === 201) {
+      store.login(user).then(() => router.push("/"));
+    }
+  });
 }
 </script>
 

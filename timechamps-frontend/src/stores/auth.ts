@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", {
       return userService.register(user).then(
         (res: AxiosResponse<any>) => {
           this.loggedIn = false;
-          return Promise.resolve(res.data);
+          return Promise.resolve(res);
         },
         (error) => {
           this.loggedIn = false;
