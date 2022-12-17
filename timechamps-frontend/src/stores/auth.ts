@@ -17,7 +17,7 @@ const accessToken = TokenStorageService.getToken();
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState =>
     accessToken
-      ? { loggedIn: true, role: Role.USER }
+      ? { loggedIn: true, role: Role.ADMIN }
       : { loggedIn: false, role: Role.USER },
   getters: {},
   actions: {
