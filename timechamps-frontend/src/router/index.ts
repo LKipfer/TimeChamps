@@ -1,25 +1,41 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import DailyTimesheet from '../views/DailyTimesheet.vue';
-import SignIn from '../views/SignIn.vue';
-import TimeAdmin from '../views/TimeAdmin.vue';
-import store from '../store';
-
-const routes = [
-  { path: '/', name: 'DailyTimesheet', component: DailyTimesheet },
-  { path: '/admin', name: 'Admin', component: TimeAdmin },
-  { path: '/login', name: 'SignIn', component: SignIn },
-];
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "@/views/HomeView.vue";
+import LoginView from "@/views/LoginView.vue";
+import RegisterView from "@/views/RegisterView.vue";
+import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "HomeView",
+      component: HomeView,
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: LoginView,
+    },
+    {
+      path: "/register",
+      name: "Register",
+      component: RegisterView,
+    },
+    {
+      path: "/admin",
+      name: "Admin",
+      component: () => import("../views/AdminView.vue"),
+    },
+  ],
 });
 
-router.beforeEach(async to => {
-  const isAuthenticated = store.state.auth.status.loggedIn;
-  if (!isAuthenticated && to.name !== 'SignIn') {
+router.beforeEach(async (to) => {
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.loggedIn;
+  if (!isAuthenticated && to.name !== "Login" && to.name !== "Register") {
     // redirect the user to the login page
-    return { name: 'SignIn' };
+    return { name: "Login" };
   }
 });
 
