@@ -35,23 +35,13 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 
-    public String register(RegistrationRequest request) {
-        return "works bruh"; //TODO: Change to null
-    }
     public User signUpUser(User user) {
-        /* boolean userExists = userRepository
-                .findUserByUsername(user.getUsername())
-                .isPresent();
 
-        if (userExists) {
-            throw new IllegalStateException("Username already taken!");
-        }
         //TODO: Implement Password Encoder
-        //String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        //user.setPassword(encodedPassword);
-
-
-         */
+        /*
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+*/
         return userRepository.save(user);
     }
 

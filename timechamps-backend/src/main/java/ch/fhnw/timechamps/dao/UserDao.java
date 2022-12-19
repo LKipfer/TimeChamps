@@ -18,16 +18,15 @@ import java.util.List;
 @Repository
 public class UserDao {
 
+    /**
+     * Here we created the one admin account, that was required to be added manually (-> see Project Requirements).
+     */
+
     private final static List<UserDetails> APPLICATION_USERS = Arrays.asList( //This User refers to the existing Class within Spring Framework!!
             new User(
                     "lukas.kipfer@students.fhnw.ch",
                     "password",
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
-            ),
-            new User(
-                    "tufan.basaran@students.fhnw.ch",
-                    "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
             )
     );
 
