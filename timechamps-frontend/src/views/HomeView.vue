@@ -2,7 +2,8 @@
 import TimestampService from "../services/timestamp.service";
 import { ref, type Ref, onMounted } from "vue";
 import type TimeStamp from "@/types/timestamp";
-import MainTitle from "@/components/MainTitle.vue";
+import EmployeeService from "@/services/employee.service";
+import type Employee from "@/types/employee";
 
 onMounted(() => {
   timestampService.value
@@ -11,10 +12,13 @@ onMounted(() => {
   setInterval(() => {
     getDate();
   }, 1000);
+  employeeService.value.getMe().then((res: Employee) => (employee.value = res));
 });
 
 const timestamps: Ref<TimeStamp[]> = ref([]);
+const employee: Ref<Employee> = ref({} as Employee);
 const timestampService = ref(new TimestampService());
+const employeeService = ref(new EmployeeService());
 let today = ref(new Date());
 
 function getDate(): void {
@@ -29,7 +33,7 @@ function addTimeStamp(): void {
 
 function getTotalWorkHours(): number {
   let hours = 0.0;
-  if (timestamps.value.length % 2 === 0) {
+  if (!getCurrentlyPunchedIn()) {
     for (let i = 0; i < timestamps.value.length; i++) {
       if (i < timestamps.value.length + 1) {
         const startTime = new Date(timestamps.value[i].timestamp).getTime();
@@ -47,19 +51,45 @@ function calcWorkTime(startTime: number, endTime: number): number {
   const msInHour = 1000 * 60 * 60;
   return Math.abs(startTime - endTime) / msInHour;
 }
+
+function getGreeting(): string {
+  let greeting = "Good evening";
+  if (today.value.getHours() < 12) {
+    greeting = "Good morning";
+  } else if (today.value.getHours() < 18) {
+    greeting = "Good afternoon";
+  }
+  return greeting;
+}
+
+function getCurrentlyPunchedIn(): boolean {
+  return timestamps.value.length % 2 !== 0;
+}
 </script>
 
 <template>
-  <MainTitle>Daily Timesheet</MainTitle>
+  <p class="text-4xl font-bold">
+    {{ getGreeting() }} <span class="font-normal">{{ employee.surname }}</span>
+  </p>
   <div class="bg-primary p-3 mb-5 border-round">{{ today }}</div>
   <DataTable :value="timestamps" responsiveLayout="scroll" class="mb-5">
     <PColumn field="id" header="Id"></PColumn>
     <PColumn field="timestamp" header="Timestamp"></PColumn>
-    <template #footer v-if="getTotalWorkHours() !== -1">
-      Total: {{ getTotalWorkHours().toFixed(2) }} hours
+    <template
+      #footer
+      v-if="getTotalWorkHours() !== -1 && timestamps.length > 0"
+    >
+      Total: {{ getTotalWorkHours().toFixed(2) }} of
+      {{ employee.targetTime.toFixed(2) }} hours
     </template>
   </DataTable>
-  <PButton @click="addTimeStamp()">Add Timestamp</PButton>
+  <PButton
+    @click="addTimeStamp()"
+    :class="[getCurrentlyPunchedIn() ? 'p-button-danger' : 'p-button-success']"
+    >{{
+      getCurrentlyPunchedIn() ? "End work time" : "Start work time"
+    }}</PButton
+  >
 </template>
 
 <style scoped>

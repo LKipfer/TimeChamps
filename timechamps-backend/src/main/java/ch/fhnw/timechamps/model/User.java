@@ -1,21 +1,103 @@
 package ch.fhnw.timechamps.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Lukas Kipfer
+ * Source: https://www.youtube.com/watch?v=QwQuro7ekvc&t=5267s
  */
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements UserDetails {
 
+    @Id
+    @SequenceGenerator(name = "user_sequence",sequenceName = "user_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_sequence")
+    @Column(nullable = false, updatable = false)
+    private Long id;
+    private String username; //usernames = mail addresses
+    @JsonIgnore
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+    @JsonIgnore
+    private Boolean locked;
+    @JsonIgnore
+    private Boolean enabled;
+
+    public User(String username,
+                String password,
+                UserRole userRole,
+                Boolean locked,
+                Boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.userRole = userRole;
+        this.locked = false;
+        this.enabled = enabled;
+        }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+        return Collections.singletonList(authority);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; //not implemented here -> just for Spring
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; //not implemented here -> just for Spring
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+
+
+/*  OLD CODE BEFORE USING SPRING WEB SECURITY
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @Column(nullable = false, updatable = false)
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     private UserType userType;
     private UserStatus userStatus;
@@ -26,18 +108,6 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void setUsername(String username) {
@@ -75,6 +145,20 @@ public class User implements Serializable {
 
         boolean isValid = true;
 
+    public static boolean authorizationCheck (UserRole userRole) {
+
+        boolean isValid = false;
+
+        if (userRole == UserRole.ADMIN) {
+            isValid = true;
+        }
+
+        return isValid;
+    }
+
+
+         /*
+
         if (password.length() > 30 || password.length() < 8)
         {
             System.out.println("Password must be less than 30 and more than 8 characters in length.");
@@ -109,17 +193,7 @@ public class User implements Serializable {
         }
         return isValid;
     }
-
-    public static boolean authorizationCheck (UserType usertype) {
-
-        boolean isValid = false;
-
-        if (usertype == UserType.Admin) {
-            isValid = true;
-        }
-
-        return isValid;
-    }
+    */
 
 }
 

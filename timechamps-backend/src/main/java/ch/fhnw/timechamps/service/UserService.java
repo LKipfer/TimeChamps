@@ -1,28 +1,47 @@
 package ch.fhnw.timechamps.service;
 
+import ch.fhnw.timechamps.controller.requests.RegistrationRequest;
 import ch.fhnw.timechamps.exception.UserNotFoundException;
 import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Lukas Kipfer
  */
 
 @Service
-public class UserService {
+@AllArgsConstructor
+public class UserService implements UserDetailsService {
+    private final static String USER_NOT_FOUND_MSG =
+            "user with username %s not found";
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Override
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 
-    public User addUser(User user) {
-        //employee.setEmployeeCode(UUID.randomUUID().toString());
+    public User signUpUser(User user) {
+
+        //TODO: Implement Password Encoder
+        /*
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+*/
         return userRepository.save(user);
     }
 
@@ -41,5 +60,10 @@ public class UserService {
 
     public void deleteUser (Long id) {
         userRepository.deleteUserById(id);
+    }
+
+    public Optional<User> findByUsername (String username) {
+        Optional <User> userOptional = userRepository.findUserByUsername(username);
+        return userOptional;
     }
 }
