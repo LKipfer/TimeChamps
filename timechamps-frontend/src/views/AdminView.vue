@@ -12,15 +12,7 @@ const toast = useToast();
 const employeeService = ref(new EmployeeService());
 const employees: Ref<Employee[]> = ref([]);
 const editingRows = ref([]);
-const employee: Ref<Employee> = ref({
-  address: "",
-  email: "",
-  employeeCode: "",
-  jobTitle: "",
-  name: "",
-  place: "",
-  surname: "",
-});
+const employee: Ref<Employee> = ref({} as Employee);
 const submitted = ref(false);
 const employeeDialog = ref(false);
 const onRowEditSave = (event: { newData: any; index: any }) => {
@@ -61,16 +53,7 @@ const saveEmployee = () => {
     }
 
     employeeDialog.value = false;
-    employee.value = {
-      id: -1,
-      address: "",
-      email: "",
-      employeeCode: "",
-      jobTitle: "",
-      name: "",
-      place: "",
-      surname: "",
-    };
+    employee.value = {} as Employee;
   }
 };
 const findIndexById = (id: number) => {
@@ -156,7 +139,7 @@ const createCode = () => {
     <div class="formgrid grid">
       <div class="field col">
         <label for="workTime">Planned Work Time</label>
-        <InputNumber id="workTime" v-model="employee.workTime" integeronly />
+        <InputNumber id="workTime" v-model="employee.targetTime" integeronly />
       </div>
     </div>
     <template #footer>

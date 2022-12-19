@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import axios from "axios";
 import type { AxiosResponse } from "axios";
 import authHeader from "@/services/auth.header";
@@ -13,10 +12,8 @@ export default class EmployeeService {
         headers: authHeader(),
       })
       .then((res: AxiosResponse<Employee[]>) => res.data);
-=======
-import type Employee from "@/types/employee";
+  }
 
-export default class EmployeeService {
   getMe(): Promise<Employee> {
     // ToDo: Implement Backend API
     return new Promise((resolve) => {
@@ -28,6 +25,5 @@ export default class EmployeeService {
       } as Employee;
       resolve(employee);
     });
->>>>>>> master
   }
 }
