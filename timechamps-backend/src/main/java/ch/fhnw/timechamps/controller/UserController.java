@@ -34,10 +34,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        if (userService.findByUsername(user.getUsername())
+                .isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        User newUser = userService.signUpUser(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+
+
+    /* OLD
+    @PostMapping("/register")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User newUser = userService.addUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
+     */
 
     @PutMapping("/update")
     public ResponseEntity<User> updateUser(@RequestBody User user) {

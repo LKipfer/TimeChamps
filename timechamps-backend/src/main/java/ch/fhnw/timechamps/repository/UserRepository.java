@@ -16,7 +16,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findUserByUsername(String username);
+
     void deleteUserById(Long id);
 
     //The reason why we used "Optional" instead of only "Employee" is for cases, that we do not find an Employee.

@@ -1,16 +1,20 @@
 package ch.fhnw.timechamps.service;
 
+import ch.fhnw.timechamps.controller.requests.RegistrationRequest;
 import ch.fhnw.timechamps.exception.UserNotFoundException;
 import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Lukas Kipfer
@@ -20,23 +24,34 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG =
-            "user with email %s not found";
+            "user with username %s not found";
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
-    }
-    /* alt
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 
+    public String register(RegistrationRequest request) {
+        return "works bruh"; //TODO: Change to null
+    }
+    public User signUpUser(User user) {
+        /* boolean userExists = userRepository
+                .findUserByUsername(user.getUsername())
+                .isPresent();
 
-     */
-    public User addUser(User user) {
+        if (userExists) {
+            throw new IllegalStateException("Username already taken!");
+        }
+        //TODO: Implement Password Encoder
+        //String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        //user.setPassword(encodedPassword);
+
+
+         */
         return userRepository.save(user);
     }
 
@@ -57,4 +72,8 @@ public class UserService implements UserDetailsService {
         userRepository.deleteUserById(id);
     }
 
+    public Optional<User> findByUsername (String username) {
+        Optional <User> userOptional = userRepository.findUserByUsername(username);
+        return userOptional;
+    }
 }
