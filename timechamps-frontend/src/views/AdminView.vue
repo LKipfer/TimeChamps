@@ -11,10 +11,12 @@ onMounted(() => {
 const toast = useToast();
 const employeeService = ref(new EmployeeService());
 const employees: Ref<Employee[]> = ref([]);
-const editingRows = ref([]);
 const employee: Ref<Employee> = ref({} as Employee);
 const submitted = ref(false);
 const employeeDialog = ref(false);
+const deleteEmployeeDialog = ref(false);
+const deleteEmployeesDialog = ref(false);
+const selectedEmployees = ref();
 const onRowEditSave = (event: { newData: any; index: any }) => {
   let { newData, index } = event;
 
@@ -23,7 +25,6 @@ const onRowEditSave = (event: { newData: any; index: any }) => {
 const openNew = () => {
   submitted.value = false;
   employeeDialog.value = true;
-  console.log(employee.value);
 };
 const hideDialog = () => {
   employeeDialog.value = false;
@@ -42,7 +43,6 @@ const saveEmployee = () => {
       });
     } else {
       employee.value.id = createId();
-      employee.value.employeeCode = createCode();
       employees.value.push(employee.value);
       toast.add({
         severity: "success",
@@ -68,10 +68,50 @@ const findIndexById = (id: number) => {
   return index;
 };
 const createId = () => {
-  return 2;
+  const ids = employees.value.map((employee) => {
+    return employee.id;
+  });
+  if (ids.length > 0) {
+    return Math.max(...ids) + 1;
+  }
+  return 0;
 };
-const createCode = () => {
-  return "";
+const editEmployee = (empl: Employee) => {
+  employee.value = { ...empl };
+  employeeDialog.value = true;
+};
+const confirmDeleteEmployee = (empl: Employee) => {
+  employee.value = empl;
+  deleteEmployeeDialog.value = true;
+};
+const deleteProduct = () => {
+  employees.value = employees.value.filter(
+    (val) => val.id !== employee.value.id
+  );
+  deleteEmployeeDialog.value = false;
+  employee.value = {} as Employee;
+  toast.add({
+    severity: "success",
+    summary: "Successful",
+    detail: "Product Deleted",
+    life: 3000,
+  });
+};
+const confirmDeleteSelected = () => {
+  deleteEmployeesDialog.value = true;
+};
+const deleteSelectedEmployees = () => {
+  employees.value = employees.value.filter(
+    (val) => !selectedEmployees.value.includes(val)
+  );
+  deleteEmployeesDialog.value = false;
+  selectedEmployees.value = null;
+  toast.add({
+    severity: "success",
+    summary: "Successful",
+    detail: "Products Deleted",
+    life: 3000,
+  });
 };
 </script>
 
@@ -85,17 +125,29 @@ const createCode = () => {
         class="p-button-success mr-2"
         @click="openNew"
       />
+      <PButton
+        label="Delete"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        @click="confirmDeleteSelected"
+        :disabled="!selectedEmployees || !selectedEmployees.length"
+      />
     </template>
   </ToolBar>
   <DataTable
     :value="employees"
     editMode="row"
+    v-model:selection="selectedEmployees"
     dataKey="id"
-    v-model:editingRows="editingRows"
     @row-edit-save="onRowEditSave"
     responsiveLayout="scroll"
   >
-    <PColumn field="employeeCode" header="Code" style="width: 30%">
+    <PColumn
+      selectionMode="multiple"
+      style="width: 3rem"
+      :exportable="false"
+    ></PColumn>
+    <PColumn field="id" header="Id" style="width: 30%">
       <template #editor="{ data, field }">
         <InputText v-model="data[field]" autofocus />
       </template>
@@ -110,11 +162,20 @@ const createCode = () => {
         <InputText v-model="data[field]" />
       </template>
     </PColumn>
-    <PColumn
-      :rowEditor="true"
-      style="width: 10%; min-width: 8rem"
-      bodyStyle="text-align:center"
-    ></PColumn>
+    <PColumn :exportable="false" style="min-width: 8rem">
+      <template #body="slotProps">
+        <PButton
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-success mr-2"
+          @click="editEmployee(slotProps.data)"
+        />
+        <PButton
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-warning"
+          @click="confirmDeleteEmployee(slotProps.data)"
+        />
+      </template>
+    </PColumn>
   </DataTable>
   <PDialog
     v-model:visible="employeeDialog"
@@ -154,6 +215,63 @@ const createCode = () => {
         icon="pi pi-check"
         class="p-button-text"
         @click="saveEmployee"
+      />
+    </template>
+  </PDialog>
+
+  <PDialog
+    v-model:visible="deleteEmployeeDialog"
+    :style="{ width: '450px' }"
+    header="Confirm"
+    :modal="true"
+  >
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+      <span v-if="employee"
+        >Are you sure you want to delete <b>{{ employee.name }}</b
+        >?</span
+      >
+    </div>
+    <template #footer>
+      <PButton
+        label="No"
+        icon="pi pi-times"
+        class="p-button-text"
+        @click="deleteEmployeeDialog = false"
+      />
+      <PButton
+        label="Yes"
+        icon="pi pi-check"
+        class="p-button-text"
+        @click="deleteProduct"
+      />
+    </template>
+  </PDialog>
+
+  <PDialog
+    v-model:visible="deleteEmployeesDialog"
+    :style="{ width: '450px' }"
+    header="Confirm"
+    :modal="true"
+  >
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+      <span v-if="employee"
+        >Are you sure you want to delete the selected employees?</span
+      >
+    </div>
+    <template #footer>
+      <PButton
+        label="No"
+        icon="pi pi-times"
+        class="p-button-text"
+        @click="deleteEmployeesDialog = false"
+      />
+      <PButton
+        label="Yes"
+        icon="pi pi-check"
+        class="p-button-text"
+        @click="deleteSelectedEmployees"
       />
     </template>
   </PDialog>
