@@ -29,7 +29,7 @@ function addTimeStamp(): void {
 
 function getTotalWorkHours(): number {
   let hours = 0.0;
-  if (timestamps.value.length % 2 === 0) {
+  if (!getCurrentlyPunchedIn()) {
     for (let i = 0; i < timestamps.value.length; i++) {
       if (i < timestamps.value.length + 1) {
         const startTime = new Date(timestamps.value[i].timestamp).getTime();
@@ -47,6 +47,10 @@ function calcWorkTime(startTime: number, endTime: number): number {
   const msInHour = 1000 * 60 * 60;
   return Math.abs(startTime - endTime) / msInHour;
 }
+
+function getCurrentlyPunchedIn(): boolean {
+  return timestamps.value.length % 2 !== 0;
+}
 </script>
 
 <template>
@@ -59,7 +63,13 @@ function calcWorkTime(startTime: number, endTime: number): number {
       Total: {{ getTotalWorkHours().toFixed(2) }} hours
     </template>
   </DataTable>
-  <PButton @click="addTimeStamp()">Add Timestamp</PButton>
+  <PButton
+    @click="addTimeStamp()"
+    :class="[getCurrentlyPunchedIn() ? 'p-button-danger' : 'p-button-success']"
+    >{{
+      getCurrentlyPunchedIn() ? "End work time" : "Start work time"
+    }}</PButton
+  >
 </template>
 
 <style scoped>
