@@ -3,6 +3,7 @@ package ch.fhnw.timechamps.config;
 
 import ch.fhnw.timechamps.dao.UserDao;
 import ch.fhnw.timechamps.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -40,8 +41,8 @@ import java.util.List;
  */
 
 @Configuration //added with registration, might lead to errors
+@AllArgsConstructor //added with registration, was previously @RequiredArgsConstructor
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
