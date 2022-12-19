@@ -27,37 +27,29 @@ import java.util.Collections;
 public class User implements UserDetails {
 
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
+    @SequenceGenerator(name = "user_sequence",sequenceName = "user_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_sequence")
     @Column(nullable = false, updatable = false)
     private Long id;
-    private String username;
-    private String email;
+    private String username; //usernames = mail addresses
     @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    @JsonIgnore
     private Boolean locked;
+    @JsonIgnore
     private Boolean enabled;
 
     public User(String username,
-                String email,
                 String password,
                 UserRole userRole,
                 Boolean locked,
                 Boolean enabled) {
         this.username = username;
-        this.email = email;
         this.password = password;
         this.userRole = userRole;
-        this.locked = !locked;
+        this.locked = false;
         this.enabled = enabled;
         }
 
@@ -72,10 +64,6 @@ public class User implements UserDetails {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public String getUsername() {
         return username;
@@ -83,17 +71,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; //not implemented here
+        return true; //not implemented here -> just for Spring
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; //not implemented here
+        return true; //not implemented here -> just for Spring
     }
 
     @Override
@@ -103,7 +91,7 @@ public class User implements UserDetails {
 
 
 
-/* alt
+/*  OLD CODE BEFORE USING SPRING WEB SECURITY
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @Column(nullable = false, updatable = false)
@@ -157,6 +145,18 @@ public class User implements UserDetails {
 
         boolean isValid = true;
 
+    public static boolean authorizationCheck (UserRole userRole) {
+
+        boolean isValid = false;
+
+        if (userRole == UserRole.ADMIN) {
+            isValid = true;
+        }
+
+        return isValid;
+    }
+
+
          /*
 
         if (password.length() > 30 || password.length() < 8)
@@ -193,19 +193,7 @@ public class User implements UserDetails {
         }
         return isValid;
     }
+    */
 
-    public static boolean authorizationCheck (UserType usertype) {
-
-        boolean isValid = false;
-
-        if (usertype == UserType.Admin) {
-            isValid = true;
-        }
-
-        return isValid;
-    }
-
-
-          */
 }
 
