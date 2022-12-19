@@ -2,13 +2,17 @@ package ch.fhnw.timechamps.config;
 
 
 import ch.fhnw.timechamps.dao.UserDao;
+import ch.fhnw.timechamps.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,13 +40,15 @@ import java.util.List;
  * @source: https://www.youtube.com/watch?v=b9O9NI-RJ3o&t=1598s
  */
 
+@Configuration //added with registration, might lead to errors
+@AllArgsConstructor //added with registration, was previously @RequiredArgsConstructor
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDao userDao;
-
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     //Deleted "@Order" so that this Bean will be used instead of the default SecurityFilterChain
@@ -56,20 +62,23 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
+                .formLogin()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Stateless = we dont want to save the session state
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) //This way we demand that the jwtAuthFilter is used before the other filter
                 ;
+
         return http.build();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService()); //There are many different .set Methods. We use this one because we want Spring to use the method we created
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;
     }
 
@@ -78,12 +87,14 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    /* alt
     @Bean
-    //TODO: Change encryption method before deploying
+    //TODO: Change encryption method before deploying (delete Method and use Class PasswordEncoder
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance(); //Should only be used for local development. This does NOT decrypt passwords! Also is deprecated.
         // return new BCryptPasswordEncoder();
     }
+    */
 
     @Bean
     public UserDetailsService userDetailsService() {
