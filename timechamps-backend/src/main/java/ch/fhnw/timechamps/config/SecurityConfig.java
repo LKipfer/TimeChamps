@@ -77,7 +77,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService); //There are many different .set Methods. We use this one because we want Spring to use the method we created
+        authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;
     }
