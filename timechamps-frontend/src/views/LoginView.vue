@@ -25,14 +25,6 @@ function onSubmit(): void {
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text-center mb-5">
       <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-      <span class="text-600 font-medium line-height-3"
-        >Don't have an account?</span
-      >
-      <router-link
-        to="/register"
-        class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-        >Create today!</router-link
-      >
     </div>
 
     <div>

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
-import RegisterView from "@/views/RegisterView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -18,11 +17,6 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: "/register",
-      name: "Register",
-      component: RegisterView,
-    },
-    {
       path: "/admin",
       name: "Admin",
       component: () => import("../views/AdminView.vue"),
@@ -33,7 +27,7 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const authStore = useAuthStore();
   const isAuthenticated = authStore.loggedIn;
-  if (!isAuthenticated && to.name !== "Login" && to.name !== "Register") {
+  if (!isAuthenticated && to.name !== "Login") {
     // redirect the user to the login page
     return { name: "Login" };
   }
