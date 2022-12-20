@@ -2,14 +2,11 @@ import { defineStore } from "pinia";
 import TokenStorageService from "@/services/token-storage.service";
 import type User from "@/types/user";
 import AuthService from "@/services/auth.service";
-import UserService from "@/services/user.service";
-import type { AxiosResponse } from "axios";
 
 interface AuthState {
   loggedIn: boolean;
 }
 
-const userService = new UserService();
 const accessToken = TokenStorageService.getToken();
 
 export const useAuthStore = defineStore("auth", {
@@ -32,18 +29,6 @@ export const useAuthStore = defineStore("auth", {
     logout(): void {
       AuthService.logout();
       this.loggedIn = false;
-    },
-    register(user: User): Promise<AxiosResponse<any, any>> {
-      return userService.register(user).then(
-        (res: AxiosResponse<any>) => {
-          this.loggedIn = false;
-          return Promise.resolve(res);
-        },
-        (error) => {
-          this.loggedIn = false;
-          return Promise.reject(error);
-        }
-      );
     },
   },
 });
