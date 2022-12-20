@@ -31,12 +31,12 @@ public class AuthController {
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest request // The whole authentication process gets delegated to Spring
     ) {
-        final UserDetails user = userDao.findUserByEmail(request.getEmail());
+        final UserDetails user = userDao.findUserByEmail(request.getUsername());
         if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         } else {
                 authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
         }
         return ResponseEntity.status(400).body("Some error has occurred");
