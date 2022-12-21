@@ -2,7 +2,7 @@ package ch.fhnw.timechamps.controller;
 
 import ch.fhnw.timechamps.config.JwtUtils;
 import ch.fhnw.timechamps.controller.requests.AuthenticationRequest;
-import ch.fhnw.timechamps.dao.UserDao;
+import ch.fhnw.timechamps.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,14 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserDao userDao;
+    //private final UserDao userDao;
+    private final UserService userService;
     private final JwtUtils jwtUtils;
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest request // The whole authentication process gets delegated to Spring
     ) {
-        final UserDetails user = userDao.findUserByEmail(request.getUsername());
+        final UserDetails user = userService.findUserByUsername(request.getUsername());
         if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         } else {
