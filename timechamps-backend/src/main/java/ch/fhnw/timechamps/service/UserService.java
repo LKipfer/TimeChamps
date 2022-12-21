@@ -29,10 +29,12 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final static List<UserDetails> APPLICATION_USERS = Arrays.asList( //This User refers to the existing Class within Spring Framework!!
-            new org.springframework.security.core.userdetails.User(
+            new User(
                     "lukas.kipfer@students.fhnw.ch",
                     "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")),
+                    true,
+                    true
             )
     );
 
