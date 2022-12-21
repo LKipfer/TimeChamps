@@ -2,6 +2,7 @@ package ch.fhnw.timechamps.controller;
 
 import ch.fhnw.timechamps.config.JwtUtils;
 import ch.fhnw.timechamps.controller.requests.AuthenticationRequest;
+import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 /**
  * @author Lukas Kipfer
@@ -31,8 +34,9 @@ public class AuthController {
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest request // The whole authentication process gets delegated to Spring
     ) {
-        final UserDetails user = userService.findUserByUsername(request.getUsername());
-        if (user != null) {
+        final Optional<User> optionalUser = userService.findByUsername(request.getUsername());
+        if (optionalUser.isPresent()) {
+            final User user = optionalUser.get();
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         } else {
                 authenticationManager.authenticate(

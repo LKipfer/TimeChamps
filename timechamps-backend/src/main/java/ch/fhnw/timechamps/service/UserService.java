@@ -85,4 +85,16 @@ public class UserService implements UserDetailsService {
         Optional <User> userOptional = userRepository.findUserByUsername(username);
         return userOptional;
     }
+
+    public void initData () {
+        User user = new User (
+                "lukas.kipfer@students.fhnw.ch",
+                "password",
+                UserRole.ADMIN,
+                false,
+                true
+        );
+        userRepository.save(user);
+    }
+
 }
