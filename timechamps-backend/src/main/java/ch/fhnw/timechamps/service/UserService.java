@@ -2,6 +2,7 @@ package ch.fhnw.timechamps.service;
 
 import ch.fhnw.timechamps.exception.UserNotFoundException;
 import ch.fhnw.timechamps.model.User;
+import ch.fhnw.timechamps.model.UserRole;
 import ch.fhnw.timechamps.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,8 +33,8 @@ public class UserService implements UserDetailsService {
             new User(
                     "lukas.kipfer@students.fhnw.ch",
                     "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")),
-                    true,
+                    UserRole.ADMIN,
+                    false,
                     true
             )
     );
