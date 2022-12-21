@@ -1,12 +1,9 @@
 package ch.fhnw.timechamps.service;
 
-import ch.fhnw.timechamps.controller.requests.RegistrationRequest;
 import ch.fhnw.timechamps.exception.UserNotFoundException;
 import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
