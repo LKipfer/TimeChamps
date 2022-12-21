@@ -86,15 +86,5 @@ public class UserService implements UserDetailsService {
         return userOptional;
     }
 
-    public void initData () {
-        User user = new User (
-                "lukas.kipfer@students.fhnw.ch",
-                "password",
-                UserRole.ADMIN,
-                false,
-                true
-        );
-        userRepository.save(user);
-    }
 
 }
