@@ -1,5 +1,9 @@
 package ch.fhnw.timechamps;
 
+import ch.fhnw.timechamps.model.User;
+import ch.fhnw.timechamps.model.UserRole;
+import ch.fhnw.timechamps.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +21,10 @@ import java.util.Arrays;
 @SpringBootApplication
 public class TimechampsApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(TimechampsApplication.class, args);
+
 	}
 
 	/* Moved CorsConfig to SecurityConfig

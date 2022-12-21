@@ -1,0 +1,1 @@
+INSERT INTO users (id, username, password, user_role, locked, enabled) VALUES (0, 'admin', 'password', 'ADMIN', false, true);
