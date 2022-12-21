@@ -32,8 +32,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-
-    // private final UserDao userDao;
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

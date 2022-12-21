@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    //private final UserDao userDao;
     private final UserService userService;
     private final JwtUtils jwtUtils;
 
