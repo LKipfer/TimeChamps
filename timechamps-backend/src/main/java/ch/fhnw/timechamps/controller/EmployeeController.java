@@ -1,7 +1,9 @@
 package ch.fhnw.timechamps.controller;
 
 import ch.fhnw.timechamps.model.Employee;
+import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.service.EmployeeService;
+import ch.fhnw.timechamps.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,11 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final UserService userService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, UserService userService) {
         this.employeeService = employeeService;
+        this.userService = userService;
     }
 
     @GetMapping("/all") //whenever we navigate to this url, a list of all employees will be returned
@@ -36,9 +40,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) { //expects JSON format of Employee
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee, User user) {
+        if (userService.findByUsername(user.getUsername()).isPresent() || employeeService.findEmployeeByEmail(employee.getEmail()).isPresent())        {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         Employee newEmployee = employeeService.addEmployee(employee);
-        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED); //returns the correct response for the successful creation of the user.
+        User newUser = userService.signUpUser(user);
+        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")

@@ -19,4 +19,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     //The reason why we used "Optional" instead of only "Employee" is for cases, that we do not find an Employee.
     Optional<Employee> findEmployeeById(Long id);
+
+    Optional<Employee> findEmployeeByEmail(String email);
+
 }
