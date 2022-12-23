@@ -34,22 +34,31 @@ const saveEmployee = () => {
   submitted.value = true;
   if (employee.value.name.trim()) {
     if (employee.value.id) {
-      employees.value[findIndexById(employee.value.id)] = employee.value;
-      toast.add({
-        severity: "success",
-        summary: "Successful",
-        detail: "Employee Updated",
-        life: 3000,
-      });
+      employeeService.value
+        .updateEmployee(employee.value)
+        .then((res: Employee) => {
+          employee.value = res;
+          employees.value[findIndexById(employee.value.id)] = employee.value;
+          toast.add({
+            severity: "success",
+            summary: "Successful",
+            detail: "Employee Updated",
+            life: 3000,
+          });
+        });
     } else {
-      employee.value.id = createId();
-      employees.value.push(employee.value);
-      toast.add({
-        severity: "success",
-        summary: "Successful",
-        detail: "Employee Created",
-        life: 3000,
-      });
+      employeeService.value
+        .addEmployee(employee.value)
+        .then((res: Employee) => {
+          employee.value = res;
+          employees.value.push(employee.value);
+          toast.add({
+            severity: "success",
+            summary: "Successful",
+            detail: "Employee Created",
+            life: 3000,
+          });
+        });
     }
 
     employeeDialog.value = false;
@@ -67,15 +76,7 @@ const findIndexById = (id: number) => {
 
   return index;
 };
-const createId = () => {
-  const ids = employees.value.map((employee) => {
-    return employee.id;
-  });
-  if (ids.length > 0) {
-    return Math.max(...ids) + 1;
-  }
-  return 0;
-};
+
 const editEmployee = (empl: Employee) => {
   employee.value = { ...empl };
   employeeDialog.value = true;
@@ -84,9 +85,10 @@ const confirmDeleteEmployee = (empl: Employee) => {
   employee.value = empl;
   deleteEmployeeDialog.value = true;
 };
-const deleteProduct = () => {
+const deleteEmployee = () => {
+  employeeService.value.deleteEmployee(employee.value.id);
   employees.value = employees.value.filter(
-    (val) => val.id !== employee.value.id
+    (val: Employee) => val.id !== employee.value.id
   );
   deleteEmployeeDialog.value = false;
   employee.value = {} as Employee;
@@ -97,10 +99,14 @@ const deleteProduct = () => {
     life: 3000,
   });
 };
+
 const confirmDeleteSelected = () => {
   deleteEmployeesDialog.value = true;
 };
 const deleteSelectedEmployees = () => {
+  selectedEmployees.value.forEach((empl: Employee) => {
+    employeeService.value.deleteEmployee(empl.id);
+  });
   employees.value = employees.value.filter(
     (val) => !selectedEmployees.value.includes(val)
   );
@@ -157,7 +163,7 @@ const deleteSelectedEmployees = () => {
         <InputText v-model="data[field]" />
       </template>
     </PColumn>
-    <PColumn field="workTime" header="Planned Work Time" style="width: 30%">
+    <PColumn field="targetTime" header="Target Time" style="width: 30%">
       <template #editor="{ data, field }">
         <InputText v-model="data[field]" />
       </template>
@@ -199,8 +205,14 @@ const deleteSelectedEmployees = () => {
     </div>
     <div class="formgrid grid">
       <div class="field col">
-        <label for="workTime">Planned Work Time</label>
-        <InputNumber id="workTime" v-model="employee.targetTime" integeronly />
+        <label for="workTime">Target Time</label>
+        <InputNumber
+          id="workTime"
+          v-model="employee.targetTime"
+          mode="decimal"
+          :maxFractionDigits="2"
+          integeronly
+        />
       </div>
     </div>
     <template #footer>
@@ -243,7 +255,7 @@ const deleteSelectedEmployees = () => {
         label="Yes"
         icon="pi pi-check"
         class="p-button-text"
-        @click="deleteProduct"
+        @click="deleteEmployee"
       />
     </template>
   </PDialog>

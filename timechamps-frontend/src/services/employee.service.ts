@@ -26,4 +26,28 @@ export default class EmployeeService {
       resolve(employee);
     });
   }
+
+  addEmployee(employee: Employee): Promise<Employee> {
+    return axios
+      .post(API_URL + "add", employee, {
+        headers: authHeader(),
+      })
+      .then((res: AxiosResponse<Employee>) => res.data);
+  }
+
+  updateEmployee(employee: Employee): Promise<Employee> {
+    return axios
+      .put(API_URL + "update", employee, {
+        headers: authHeader(),
+      })
+      .then((res: AxiosResponse<Employee>) => res.data);
+  }
+
+  deleteEmployee(id: number): Promise<void> {
+    return axios
+      .delete(API_URL + `delete/${id}`, {
+        headers: authHeader(),
+      })
+      .then((res: AxiosResponse<any>) => res.data);
+  }
 }
