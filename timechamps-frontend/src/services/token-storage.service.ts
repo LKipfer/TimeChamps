@@ -1,5 +1,5 @@
 
-//@author Isabelle Bustamante
+//author Isabelle Bustamante
 class TokenStorageService {
   storeToken(token: string | null): void {
     if (!token) {
