@@ -1,7 +1,8 @@
-/**
+<!--
 * @author Isabelle Bustamante
 
 */
+-->
 
 <script setup lang="ts">
 import MainTitle from "@/components/MainTitle.vue";

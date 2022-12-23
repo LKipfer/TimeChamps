@@ -1,4 +1,4 @@
-/**
+/*
  * @author Isabelle Bustamante
 
  */

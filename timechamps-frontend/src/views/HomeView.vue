@@ -1,7 +1,8 @@
-/**
+<!--
 * @author Isabelle Bustamante
 
 */
+-->
 
 <script setup lang="ts">
 import TimestampService from "../services/timestamp.service";
