@@ -37,7 +37,10 @@ public class AuthController {
         final Optional<User> optionalUser = userService.findByUsername(request.getUsername());
         if (optionalUser.isPresent()) {
             final User user = optionalUser.get();
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
+            if (user.getPassword().matches(request.getPassword())) {
+                return ResponseEntity.ok(jwtUtils.generateToken(user));
+            } else return ResponseEntity.status(403).body("Password does not match");
+
         } else {
                 authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
