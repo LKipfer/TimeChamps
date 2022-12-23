@@ -143,7 +143,7 @@ public class User implements UserDetails {
          Source: https://java2blog.com/validate-password-java/
          */
 
-        boolean isValid = true;
+        // boolean isValid = true;
 
     public static boolean authorizationCheck (UserRole userRole) {
 

@@ -7,14 +7,14 @@ import { useAuthStore } from "@/stores/auth";
 const router = useRouter();
 const store = useAuthStore();
 
-const email = ref("");
+const username = ref("");
 const password = ref("");
 
 computed(() => store.loggedIn);
 
 function onSubmit(): void {
   const user = {
-    email: email.value,
+    username: username.value,
     password: password.value,
   };
   store.login(user).then(() => router.push("/"));
@@ -25,19 +25,18 @@ function onSubmit(): void {
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text-center mb-5">
       <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-      <span class="text-600 font-medium line-height-3"
-        >Don't have an account?</span
-      >
-      <router-link
-        to="/register"
-        class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-        >Create today!</router-link
-      >
     </div>
 
     <div>
-      <label for="email" class="block text-900 font-medium mb-2">Email</label>
-      <InputText id="email" v-model="email" type="text" class="w-full mb-3" />
+      <label for="username" class="block text-900 font-medium mb-2"
+        >Username</label
+      >
+      <InputText
+        id="username"
+        v-model="username"
+        type="text"
+        class="w-full mb-3"
+      />
 
       <label for="password" class="block text-900 font-medium mb-2"
         >Password</label

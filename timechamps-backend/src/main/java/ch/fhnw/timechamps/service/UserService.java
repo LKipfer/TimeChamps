@@ -1,18 +1,17 @@
 package ch.fhnw.timechamps.service;
 
-import ch.fhnw.timechamps.controller.requests.RegistrationRequest;
 import ch.fhnw.timechamps.exception.UserNotFoundException;
 import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +62,6 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> findByUsername (String username) {
-        Optional <User> userOptional = userRepository.findUserByUsername(username);
-        return userOptional;
+        return userRepository.findUserByUsername(username);
     }
 }

@@ -9,7 +9,7 @@ export default class UserService {
   register(user: User): Promise<Employee> {
     return axios
       .post(API_URL + "register", {
-        email: user.email,
+        username: user.username,
         password: user.password,
       })
       .then((res: AxiosResponse<Employee>) => res.data);
