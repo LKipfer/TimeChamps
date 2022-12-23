@@ -1,3 +1,9 @@
+/**
+ * @author Tufan Basaran
+ * Source Router Basics: https://www.youtube.com/watch?v=juocv4AtrHoI
+ */
+
+
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";

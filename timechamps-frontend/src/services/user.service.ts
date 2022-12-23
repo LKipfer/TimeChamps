@@ -1,3 +1,8 @@
+/**
+ * @author Isabelle Bustamante
+
+ */
+
 import axios from "axios";
 import type User from "@/types/user";
 import type { AxiosResponse } from "axios";

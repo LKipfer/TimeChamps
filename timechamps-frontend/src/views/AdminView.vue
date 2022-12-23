@@ -1,3 +1,8 @@
+/**
+* @author Isabelle Bustamante
+
+*/
+
 <script setup lang="ts">
 import MainTitle from "@/components/MainTitle.vue";
 import { onMounted, type Ref, ref } from "vue";

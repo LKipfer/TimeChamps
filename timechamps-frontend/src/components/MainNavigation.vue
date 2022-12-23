@@ -1,3 +1,10 @@
+<!--
+* @author Tufan Basaran
+* Source https://vuejs.org/guide/scaling-up/sfc.html
+* Source https://vuejs.org/api/built-in-directives.html
+* Source https://vuejs.org/guide/typescript/overview.html
+*/-->
+
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";

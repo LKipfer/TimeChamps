@@ -1,3 +1,8 @@
+/**
+* @author Isabelle Bustamante
+
+*/
+
 <script setup lang="ts">
 import TimestampService from "../services/timestamp.service";
 import { ref, type Ref, onMounted } from "vue";
