@@ -37,13 +37,12 @@ public class AuthController {
         final Optional<User> optionalUser = userService.findByUsername(request.getUsername());
         if (optionalUser.isPresent()) {
             final User user = optionalUser.get();
-            if (user.getPassword().matches(request.getPassword())) {
-                return ResponseEntity.ok(jwtUtils.generateToken(user));
-            } else return ResponseEntity.status(403).body("Password does not match");
-
+            return ResponseEntity.ok(jwtUtils.generateToken(user));
         } else {
-            return ResponseEntity.status(403).body("Username not found.");
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
         }
-
+        return ResponseEntity.status(400).body("Some error has occurred");
     }
 }
