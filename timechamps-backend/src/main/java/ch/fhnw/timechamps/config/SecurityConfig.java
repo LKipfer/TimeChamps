@@ -1,6 +1,7 @@
 package ch.fhnw.timechamps.config;
 
 
+import ch.fhnw.timechamps.model.User;
 import ch.fhnw.timechamps.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Optional;
 
 /**
  * @author Lukas Kipfer
@@ -86,7 +89,8 @@ public class SecurityConfig {
         return new UserDetailsService () {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userService.findUserByUsername(username);
+                Optional<User> userOptional = userService.findByUsername(username);
+                return userOptional.orElseThrow(() -> new UsernameNotFoundException("No user was found."));
             }
         };
     }

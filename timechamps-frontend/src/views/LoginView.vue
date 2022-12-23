@@ -7,14 +7,14 @@ import { useAuthStore } from "@/stores/auth";
 const router = useRouter();
 const store = useAuthStore();
 
-const email = ref("");
+const username = ref("");
 const password = ref("");
 
 computed(() => store.loggedIn);
 
 function onSubmit(): void {
   const user = {
-    email: email.value,
+    username: username.value,
     password: password.value,
   };
   store.login(user).then(() => router.push("/"));
@@ -28,8 +28,15 @@ function onSubmit(): void {
     </div>
 
     <div>
-      <label for="email" class="block text-900 font-medium mb-2">Email</label>
-      <InputText id="email" v-model="email" type="text" class="w-full mb-3" />
+      <label for="username" class="block text-900 font-medium mb-2"
+        >Username</label
+      >
+      <InputText
+        id="username"
+        v-model="username"
+        type="text"
+        class="w-full mb-3"
+      />
 
       <label for="password" class="block text-900 font-medium mb-2"
         >Password</label
