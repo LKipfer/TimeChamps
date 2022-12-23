@@ -42,10 +42,8 @@ public class AuthController {
             } else return ResponseEntity.status(403).body("Password does not match");
 
         } else {
-                authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
+            return ResponseEntity.status(403).body("Username not found.");
         }
-        return ResponseEntity.status(400).body("Some error has occurred");
+
     }
 }
