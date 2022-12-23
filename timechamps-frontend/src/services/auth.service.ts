@@ -1,7 +1,4 @@
-/*
- * @author Isabelle Bustamante
-
- */
+//@author Isabelle Bustamante
 
 import axios from "axios";
 import TokenStorageService from "./token-storage.service";

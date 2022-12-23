@@ -1,7 +1,7 @@
 <!--
 * @author Isabelle Bustamante
 
-*/
+
 -->
 
 <script setup lang="ts">

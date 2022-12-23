@@ -1,7 +1,6 @@
-/*
- * @author Isabelle Bustamante
+//@author Isabelle Bustamante
 
- */
+
 
 import TokenStorageService from "./token-storage.service";
 
