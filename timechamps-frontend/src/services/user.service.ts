@@ -9,7 +9,7 @@ export default class UserService {
     return (
       axios
         .post(API_URL + "register", {
-          email: user.email,
+          username: user.username,
           password: user.password,
         })
         // ToDo: Define return type

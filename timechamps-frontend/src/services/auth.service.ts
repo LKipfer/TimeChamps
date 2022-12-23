@@ -9,7 +9,7 @@ class AuthService {
   login(user: User): Promise<string> {
     return axios
       .post(API_URL + "authenticate", {
-        email: user.email,
+        username: user.username,
         password: user.password,
       })
       .then((res: AxiosResponse<string>) => {
